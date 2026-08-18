@@ -34,3 +34,21 @@ Thumbs.db
 # Temporary
 tmp/
 temp/
+
+# Dependencies
+node_modules/
+
+# Build
+dist/
+
+# Environment
+.env
+.env.*
+
+# Agent/editor generated files
+.agents/
+.claude/
+.windsurf/
+
+# Logs
+*.log

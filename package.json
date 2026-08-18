@@ -4,8 +4,24 @@
     "private": true,
     "description": "Language learning platform",
     "scripts": {
-      "dev": "npm run dev --prefix backend",
-      "dev:backend": "npm run dev --prefix backend",
-      "dev:frontend": "npm run dev --prefix frontend"
-    }
-  }
+        "dev": "npm run dev --prefix backend",
+        "dev:backend": "npm run dev --prefix backend",
+        "dev:frontend": "npm run dev --prefix frontend"
+    },
+    "main": "index.js",
+    "directories": {
+        "doc": "docs"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/sindro05/LinguaVerse.git"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "type": "commonjs",
+    "bugs": {
+        "url": "https://github.com/sindro05/LinguaVerse/issues"
+    },
+    "homepage": "https://github.com/sindro05/LinguaVerse#readme"
+}
