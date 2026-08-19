@@ -1,46 +1,28 @@
-import express from "express";
+import express, { Application } from "express";
 import cors from "cors";
-import helmet from "helmet";
+import swaggerUi from "swagger-ui-express";
+import { swaggerSpec } from "./config/swagger.js";
 
-import { prisma } from "./config/prisma.js";
 import authRoutes from "./routes/auth.routes.js";
 import userRoutes from "./routes/user.routes.js";
+import languageRoutes from "./routes/language.routes.js";
+import levelRoutes from "./routes/level.routes.js";
 
-const app = express();
+const app: Application = express();
 
 app.use(cors());
-app.use(helmet());
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-// API root
-app.get("/", (_req, res) => {
-  res.json({
-    message: "Welcome to LinguaVerse API 🚀",
-    status: "OK",
-  });
-});
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
-// Database health check
-app.get("/api/health/db", async (_req, res) => {
-  try {
-    await prisma.$queryRaw`SELECT 1`;
-
-    res.json({
-      status: "OK",
-      database: "connected",
-    });
-  } catch (error) {
-    console.error("Database connection error:", error);
-
-    res.status(500).json({
-      status: "ERROR",
-      database: "disconnected",
-    });
-  }
-});
-
-// Authentication
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
+app.use("/api/languages", languageRoutes);
+app.use("/api/levels", levelRoutes);
+
+app.get("/health", (_req, res) => {
+  res.status(200).json({ success: true, message: "LinguaVerse API is running" });
+});
 
 export default app;
