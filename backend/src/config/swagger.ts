@@ -27,6 +27,10 @@ const options: swaggerJsdoc.Options = {
       },
 
       schemas: {
+        // =========================================================
+        // USER
+        // =========================================================
+
         User: {
           type: "object",
           properties: {
@@ -74,6 +78,10 @@ const options: swaggerJsdoc.Options = {
           },
         },
 
+        // =========================================================
+        // LANGUAGE
+        // =========================================================
+
         Language: {
           type: "object",
           properties: {
@@ -91,6 +99,7 @@ const options: swaggerJsdoc.Options = {
             },
             nativeName: {
               type: "string",
+              nullable: true,
               example: "English",
             },
             flag: {
@@ -104,6 +113,397 @@ const options: swaggerJsdoc.Options = {
             },
           },
         },
+
+        CreateLanguageRequest: {
+          type: "object",
+          required: ["code", "name"],
+          properties: {
+            code: {
+              type: "string",
+              example: "fr",
+            },
+            name: {
+              type: "string",
+              example: "French",
+            },
+            nativeName: {
+              type: "string",
+              example: "Français",
+            },
+            flag: {
+              type: "string",
+              example: "🇫🇷",
+            },
+          },
+        },
+
+        UpdateLanguageRequest: {
+          type: "object",
+          properties: {
+            code: {
+              type: "string",
+              example: "fr",
+            },
+            name: {
+              type: "string",
+              example: "French",
+            },
+            nativeName: {
+              type: "string",
+              example: "Français",
+            },
+            flag: {
+              type: "string",
+              example: "🇫🇷",
+            },
+          },
+        },
+
+        // =========================================================
+        // LEVEL
+        // =========================================================
+
+        Level: {
+          type: "object",
+          properties: {
+            id: {
+              type: "string",
+              example: "cm123level",
+            },
+            languageId: {
+              type: "string",
+              example: "cm123language",
+            },
+            name: {
+              type: "string",
+              example: "Beginner",
+            },
+            description: {
+              type: "string",
+              nullable: true,
+              example: "Basic level for new learners",
+            },
+            difficulty: {
+              type: "string",
+              enum: [
+                "BEGINNER",
+                "ELEMENTARY",
+                "INTERMEDIATE",
+                "UPPER_INTERMEDIATE",
+                "ADVANCED",
+                "EXPERT",
+              ],
+              example: "BEGINNER",
+            },
+            order: {
+              type: "integer",
+              example: 1,
+            },
+            requiredXp: {
+              type: "integer",
+              example: 0,
+            },
+            createdAt: {
+              type: "string",
+              format: "date-time",
+            },
+            updatedAt: {
+              type: "string",
+              format: "date-time",
+            },
+          },
+        },
+
+        CreateLevelRequest: {
+          type: "object",
+          required: [
+            "languageId",
+            "name",
+            "difficulty",
+            "order",
+          ],
+          properties: {
+            languageId: {
+              type: "string",
+              example: "cm123language",
+            },
+            name: {
+              type: "string",
+              example: "Beginner",
+            },
+            description: {
+              type: "string",
+              example: "Basic level for new learners",
+            },
+            difficulty: {
+              type: "string",
+              enum: [
+                "BEGINNER",
+                "ELEMENTARY",
+                "INTERMEDIATE",
+                "UPPER_INTERMEDIATE",
+                "ADVANCED",
+                "EXPERT",
+              ],
+              example: "BEGINNER",
+            },
+            order: {
+              type: "integer",
+              example: 1,
+            },
+            requiredXp: {
+              type: "integer",
+              example: 0,
+            },
+          },
+        },
+
+        UpdateLevelRequest: {
+          type: "object",
+          properties: {
+            languageId: {
+              type: "string",
+              example: "cm123language",
+            },
+            name: {
+              type: "string",
+              example: "Beginner",
+            },
+            description: {
+              type: "string",
+              example: "Basic level for new learners",
+            },
+            difficulty: {
+              type: "string",
+              enum: [
+                "BEGINNER",
+                "ELEMENTARY",
+                "INTERMEDIATE",
+                "UPPER_INTERMEDIATE",
+                "ADVANCED",
+                "EXPERT",
+              ],
+              example: "BEGINNER",
+            },
+            order: {
+              type: "integer",
+              example: 1,
+            },
+            requiredXp: {
+              type: "integer",
+              example: 0,
+            },
+          },
+        },
+
+        // =========================================================
+        // LESSON
+        // =========================================================
+
+        Lesson: {
+          type: "object",
+          properties: {
+            id: {
+              type: "string",
+              example: "cm123lesson",
+            },
+            languageId: {
+              type: "string",
+              example: "cm123language",
+            },
+            levelId: {
+              type: "string",
+              nullable: true,
+              example: "cm123level",
+            },
+            title: {
+              type: "string",
+              example: "Basic Greetings",
+            },
+            description: {
+              type: "string",
+              nullable: true,
+              example: "Learn basic greetings in English",
+            },
+            type: {
+              type: "string",
+              enum: [
+                "VOCABULARY",
+                "GRAMMAR",
+                "LISTENING",
+                "READING",
+                "SPEAKING",
+                "WRITING",
+                "MIXED",
+              ],
+              example: "VOCABULARY",
+            },
+            difficulty: {
+              type: "string",
+              enum: [
+                "BEGINNER",
+                "ELEMENTARY",
+                "INTERMEDIATE",
+                "UPPER_INTERMEDIATE",
+                "ADVANCED",
+                "EXPERT",
+              ],
+              example: "BEGINNER",
+            },
+            order: {
+              type: "integer",
+              example: 1,
+            },
+            xpReward: {
+              type: "integer",
+              example: 10,
+            },
+            duration: {
+              type: "integer",
+              nullable: true,
+              example: 15,
+            },
+            createdAt: {
+              type: "string",
+              format: "date-time",
+            },
+            updatedAt: {
+              type: "string",
+              format: "date-time",
+            },
+          },
+        },
+
+        CreateLessonRequest: {
+          type: "object",
+          required: [
+            "languageId",
+            "title",
+            "type",
+            "difficulty",
+            "order",
+          ],
+          properties: {
+            languageId: {
+              type: "string",
+              example: "cm123language",
+            },
+            levelId: {
+              type: "string",
+              nullable: true,
+              example: "cm123level",
+            },
+            title: {
+              type: "string",
+              example: "Basic Greetings",
+            },
+            description: {
+              type: "string",
+              example: "Learn basic greetings in English",
+            },
+            type: {
+              type: "string",
+              enum: [
+                "VOCABULARY",
+                "GRAMMAR",
+                "LISTENING",
+                "READING",
+                "SPEAKING",
+                "WRITING",
+                "MIXED",
+              ],
+              example: "VOCABULARY",
+            },
+            difficulty: {
+              type: "string",
+              enum: [
+                "BEGINNER",
+                "ELEMENTARY",
+                "INTERMEDIATE",
+                "UPPER_INTERMEDIATE",
+                "ADVANCED",
+                "EXPERT",
+              ],
+              example: "BEGINNER",
+            },
+            order: {
+              type: "integer",
+              example: 1,
+            },
+            xpReward: {
+              type: "integer",
+              example: 10,
+            },
+            duration: {
+              type: "integer",
+              example: 15,
+            },
+          },
+        },
+
+        UpdateLessonRequest: {
+          type: "object",
+          properties: {
+            languageId: {
+              type: "string",
+              example: "cm123language",
+            },
+            levelId: {
+              type: "string",
+              nullable: true,
+              example: "cm123level",
+            },
+            title: {
+              type: "string",
+              example: "Basic Greetings",
+            },
+            description: {
+              type: "string",
+              example: "Learn basic greetings in English",
+            },
+            type: {
+              type: "string",
+              enum: [
+                "VOCABULARY",
+                "GRAMMAR",
+                "LISTENING",
+                "READING",
+                "SPEAKING",
+                "WRITING",
+                "MIXED",
+              ],
+              example: "GRAMMAR",
+            },
+            difficulty: {
+              type: "string",
+              enum: [
+                "BEGINNER",
+                "ELEMENTARY",
+                "INTERMEDIATE",
+                "UPPER_INTERMEDIATE",
+                "ADVANCED",
+                "EXPERT",
+              ],
+              example: "BEGINNER",
+            },
+            order: {
+              type: "integer",
+              example: 1,
+            },
+            xpReward: {
+              type: "integer",
+              example: 20,
+            },
+            duration: {
+              type: "integer",
+              example: 20,
+            },
+          },
+        },
+
+        // =========================================================
+        // AUTHENTICATION
+        // =========================================================
 
         RegisterRequest: {
           type: "object",
@@ -167,29 +567,6 @@ const options: swaggerJsdoc.Options = {
             },
           },
         },
-
-        CreateLanguageRequest: {
-          type: "object",
-          required: ["code", "name"],
-          properties: {
-            code: {
-              type: "string",
-              example: "fr",
-            },
-            name: {
-              type: "string",
-              example: "French",
-            },
-            nativeName: {
-              type: "string",
-              example: "Français",
-            },
-            flag: {
-              type: "string",
-              example: "🇫🇷",
-            },
-          },
-        },
       },
     },
 
@@ -206,13 +583,18 @@ const options: swaggerJsdoc.Options = {
         name: "Languages",
         description: "Language management",
       },
+      {
+        name: "Levels",
+        description: "Level management",
+      },
+      {
+        name: "Lessons",
+        description: "Lesson management",
+      },
     ],
   },
 
-  apis: [
-    "./src/routes/*.ts",
-    "./src/controllers/*.ts",
-  ],
+  apis: ["./src/routes/*.ts"],
 };
 
 export const swaggerSpec = swaggerJsdoc(options);
