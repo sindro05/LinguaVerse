@@ -6,6 +6,8 @@ import {
   updateLevel,
   deleteLevel,
 } from "../controllers/level.controller.js";
+import { authenticate } from "../middleware/auth.middleware.js";
+import { requireAdmin } from "../middleware/role.middleware.js";
 
 const router = Router();
 
@@ -58,8 +60,10 @@ router.get("/:id", getLevel);
  * @swagger
  * /api/levels:
  *   post:
- *     summary: Create a level
+ *     summary: Create a level (admin only)
  *     tags: [Levels]
+ *     security:
+ *       - bearerAuth: []
  *     requestBody:
  *       required: true
  *       content:
@@ -90,17 +94,23 @@ router.get("/:id", getLevel);
  *     responses:
  *       201:
  *         description: Level created
+ *       401:
+ *         description: Authentication required
+ *       403:
+ *         description: Admin access required
  *       409:
  *         description: Order already exists for this language
  */
-router.post("/", createLevel);
+router.post("/", authenticate, requireAdmin, createLevel);
 
 /**
  * @swagger
  * /api/levels/{id}:
  *   patch:
- *     summary: Update a level
+ *     summary: Update a level (admin only)
  *     tags: [Levels]
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -128,17 +138,23 @@ router.post("/", createLevel);
  *     responses:
  *       200:
  *         description: Level updated
+ *       401:
+ *         description: Authentication required
+ *       403:
+ *         description: Admin access required
  *       404:
  *         description: Level not found
  */
-router.patch("/:id", updateLevel);
+router.patch("/:id", authenticate, requireAdmin, updateLevel);
 
 /**
  * @swagger
  * /api/levels/{id}:
  *   delete:
- *     summary: Delete a level
+ *     summary: Delete a level (admin only)
  *     tags: [Levels]
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -148,9 +164,13 @@ router.patch("/:id", updateLevel);
  *     responses:
  *       200:
  *         description: Level deleted
+ *       401:
+ *         description: Authentication required
+ *       403:
+ *         description: Admin access required
  *       404:
  *         description: Level not found
  */
-router.delete("/:id", deleteLevel);
+router.delete("/:id", authenticate, requireAdmin, deleteLevel);
 
 export default router;

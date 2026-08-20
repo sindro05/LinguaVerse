@@ -1,14 +1,14 @@
 import { Router } from "express";
 
 import {
-  getLessons,
-  getLesson,
-  getLessonsForLanguage,
-  getLessonsForLevel,
-  createLessonController,
-  updateLessonController,
-  deleteLessonController,
-} from "../controllers/lesson.controller.js";
+  getVocabulary,
+  getVocabularyItem,
+  getVocabularyForLanguage,
+  getVocabularyForLesson,
+  createVocabularyController,
+  updateVocabularyController,
+  deleteVocabularyController,
+} from "../controllers/vocabulary.controller.js";
 import { authenticate } from "../middleware/auth.middleware.js";
 import { requireAdmin } from "../middleware/role.middleware.js";
 
@@ -17,30 +17,30 @@ const router = Router();
 /**
  * @swagger
  * tags:
- *   - name: Lessons
- *     description: Lesson management
+ *   - name: Vocabulary
+ *     description: Vocabulary management
  */
 
 /**
  * @swagger
- * /api/lessons:
+ * /api/vocabulary:
  *   get:
- *     summary: Get all lessons
- *     tags: [Lessons]
+ *     summary: Get all vocabulary
+ *     tags: [Vocabulary]
  *     responses:
  *       200:
- *         description: List of lessons
+ *         description: List of vocabulary
  *       500:
  *         description: Server error
  */
-router.get("/", getLessons);
+router.get("/", getVocabulary);
 
 /**
  * @swagger
- * /api/lessons/language/{languageId}:
+ * /api/vocabulary/language/{languageId}:
  *   get:
- *     summary: Get lessons by language
- *     tags: [Lessons]
+ *     summary: Get vocabulary by language
+ *     tags: [Vocabulary]
  *     parameters:
  *       - in: path
  *         name: languageId
@@ -49,44 +49,44 @@ router.get("/", getLessons);
  *           type: string
  *     responses:
  *       200:
- *         description: Lessons found
+ *         description: Vocabulary found
  *       400:
  *         description: Invalid language ID
  */
 router.get(
   "/language/:languageId",
-  getLessonsForLanguage
+  getVocabularyForLanguage
 );
 
 /**
  * @swagger
- * /api/lessons/level/{levelId}:
+ * /api/vocabulary/lesson/{lessonId}:
  *   get:
- *     summary: Get lessons by level
- *     tags: [Lessons]
+ *     summary: Get vocabulary by lesson
+ *     tags: [Vocabulary]
  *     parameters:
  *       - in: path
- *         name: levelId
+ *         name: lessonId
  *         required: true
  *         schema:
  *           type: string
  *     responses:
  *       200:
- *         description: Lessons found
+ *         description: Vocabulary found
  *       400:
- *         description: Invalid level ID
+ *         description: Invalid lesson ID
  */
 router.get(
-  "/level/:levelId",
-  getLessonsForLevel
+  "/lesson/:lessonId",
+  getVocabularyForLesson
 );
 
 /**
  * @swagger
- * /api/lessons/{id}:
+ * /api/vocabulary/{id}:
  *   get:
- *     summary: Get lesson by ID
- *     tags: [Lessons]
+ *     summary: Get vocabulary by ID
+ *     tags: [Vocabulary]
  *     parameters:
  *       - in: path
  *         name: id
@@ -95,18 +95,18 @@ router.get(
  *           type: string
  *     responses:
  *       200:
- *         description: Lesson found
+ *         description: Vocabulary found
  *       404:
- *         description: Lesson not found
+ *         description: Vocabulary not found
  */
-router.get("/:id", getLesson);
+router.get("/:id", getVocabularyItem);
 
 /**
  * @swagger
- * /api/lessons:
+ * /api/vocabulary:
  *   post:
- *     summary: Create a lesson (admin only)
- *     tags: [Lessons]
+ *     summary: Create vocabulary (admin only)
+ *     tags: [Vocabulary]
  *     security:
  *       - bearerAuth: []
  *     requestBody:
@@ -114,10 +114,10 @@ router.get("/:id", getLesson);
  *       content:
  *         application/json:
  *           schema:
- *             $ref: "#/components/schemas/CreateLessonRequest"
+ *             $ref: "#/components/schemas/CreateVocabularyRequest"
  *     responses:
  *       201:
- *         description: Lesson created successfully
+ *         description: Vocabulary created successfully
  *       400:
  *         description: Invalid request
  *       401:
@@ -125,14 +125,19 @@ router.get("/:id", getLesson);
  *       403:
  *         description: Admin access required
  */
-router.post("/", authenticate, requireAdmin, createLessonController);
+router.post(
+  "/",
+  authenticate,
+  requireAdmin,
+  createVocabularyController
+);
 
 /**
  * @swagger
- * /api/lessons/{id}:
+ * /api/vocabulary/{id}:
  *   put:
- *     summary: Update a lesson (admin only)
- *     tags: [Lessons]
+ *     summary: Update vocabulary (admin only)
+ *     tags: [Vocabulary]
  *     security:
  *       - bearerAuth: []
  *     parameters:
@@ -146,10 +151,10 @@ router.post("/", authenticate, requireAdmin, createLessonController);
  *       content:
  *         application/json:
  *           schema:
- *             $ref: "#/components/schemas/UpdateLessonRequest"
+ *             $ref: "#/components/schemas/UpdateVocabularyRequest"
  *     responses:
  *       200:
- *         description: Lesson updated successfully
+ *         description: Vocabulary updated successfully
  *       400:
  *         description: Invalid request
  *       401:
@@ -157,16 +162,21 @@ router.post("/", authenticate, requireAdmin, createLessonController);
  *       403:
  *         description: Admin access required
  *       404:
- *         description: Lesson not found
+ *         description: Vocabulary not found
  */
-router.put("/:id", authenticate, requireAdmin, updateLessonController);
+router.put(
+  "/:id",
+  authenticate,
+  requireAdmin,
+  updateVocabularyController
+);
 
 /**
  * @swagger
- * /api/lessons/{id}:
+ * /api/vocabulary/{id}:
  *   delete:
- *     summary: Delete a lesson (admin only)
- *     tags: [Lessons]
+ *     summary: Delete vocabulary (admin only)
+ *     tags: [Vocabulary]
  *     security:
  *       - bearerAuth: []
  *     parameters:
@@ -177,7 +187,7 @@ router.put("/:id", authenticate, requireAdmin, updateLessonController);
  *           type: string
  *     responses:
  *       200:
- *         description: Lesson deleted successfully
+ *         description: Vocabulary deleted successfully
  *       400:
  *         description: Invalid ID
  *       401:
@@ -185,8 +195,13 @@ router.put("/:id", authenticate, requireAdmin, updateLessonController);
  *       403:
  *         description: Admin access required
  *       404:
- *         description: Lesson not found
+ *         description: Vocabulary not found
  */
-router.delete("/:id", authenticate, requireAdmin, deleteLessonController);
+router.delete(
+  "/:id",
+  authenticate,
+  requireAdmin,
+  deleteVocabularyController
+);
 
 export default router;

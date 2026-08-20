@@ -9,6 +9,16 @@ import userRoutes from "./routes/user.routes.js";
 import languageRoutes from "./routes/language.routes.js";
 import levelRoutes from "./routes/level.routes.js";
 import lessonRoutes from "./routes/lesson.routes.js";
+import vocabularyRoutes from "./routes/vocabulary.routes.js";
+import exerciseRoutes from "./routes/exercise.routes.js";
+import exerciseOptionRoutes from "./routes/exerciseOption.routes.js";
+import lessonProgressRoutes from "./routes/lessonProgress.routes.js";
+import exerciseAttemptRoutes from "./routes/exercise-attempt.routes.js";
+import vocabularyProgressRoutes from "./routes/vocabularyProgress.routes.js";
+import achievementRoutes from "./routes/achievement.routes.js";
+import userAchievementRoutes from "./routes/userAchievement.routes.js";
+import userStreakRoutes from "./routes/userStreak.routes.js";
+import dashboardRoutes from "./routes/dashboard.routes.js";
 
 const app: Application = express();
 
@@ -56,6 +66,26 @@ app.use("/api/languages", languageRoutes);
 app.use("/api/levels", levelRoutes);
 
 app.use("/api/lessons", lessonRoutes);
+
+app.use("/api/vocabulary", vocabularyRoutes);
+
+app.use("/api/exercises", exerciseRoutes);
+
+app.use("/api/exercise-options", exerciseOptionRoutes);
+
+app.use("/api/lesson-progress", lessonProgressRoutes);
+
+app.use("/api/exercise-attempts", exerciseAttemptRoutes);
+
+app.use("/api/vocabulary-progress", vocabularyProgressRoutes);
+
+app.use("/api/achievements", achievementRoutes);
+
+app.use("/api/user-achievements", userAchievementRoutes);
+
+app.use("/api/streaks", userStreakRoutes);
+
+app.use("/api/dashboard", dashboardRoutes);
 
 // =====================================================
 // HEALTH CHECK

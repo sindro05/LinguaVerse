@@ -6,6 +6,8 @@ import {
   updateLanguage,
   deleteLanguage,
 } from "../controllers/language.controller.js";
+import { authenticate } from "../middleware/auth.middleware.js";
+import { requireAdmin } from "../middleware/role.middleware.js";
 
 const router = Router();
 
@@ -52,8 +54,10 @@ router.get("/:id", getLanguage);
  * @swagger
  * /api/languages:
  *   post:
- *     summary: Create a language
+ *     summary: Create a language (admin only)
  *     tags: [Languages]
+ *     security:
+ *       - bearerAuth: []
  *     requestBody:
  *       required: true
  *       content:
@@ -79,17 +83,23 @@ router.get("/:id", getLanguage);
  *     responses:
  *       201:
  *         description: Language created
+ *       401:
+ *         description: Authentication required
+ *       403:
+ *         description: Admin access required
  *       409:
  *         description: Language code already exists
  */
-router.post("/", createLanguage);
+router.post("/", authenticate, requireAdmin, createLanguage);
 
 /**
  * @swagger
  * /api/languages/{id}:
  *   patch:
- *     summary: Update a language
+ *     summary: Update a language (admin only)
  *     tags: [Languages]
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -118,17 +128,23 @@ router.post("/", createLanguage);
  *     responses:
  *       200:
  *         description: Language updated
+ *       401:
+ *         description: Authentication required
+ *       403:
+ *         description: Admin access required
  *       404:
  *         description: Language not found
  */
-router.patch("/:id", updateLanguage);
+router.patch("/:id", authenticate, requireAdmin, updateLanguage);
 
 /**
  * @swagger
  * /api/languages/{id}:
  *   delete:
- *     summary: Delete a language
+ *     summary: Delete a language (admin only)
  *     tags: [Languages]
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -138,9 +154,13 @@ router.patch("/:id", updateLanguage);
  *     responses:
  *       200:
  *         description: Language deleted
+ *       401:
+ *         description: Authentication required
+ *       403:
+ *         description: Admin access required
  *       404:
  *         description: Language not found
  */
-router.delete("/:id", deleteLanguage);
+router.delete("/:id", authenticate, requireAdmin, deleteLanguage);
 
 export default router;
